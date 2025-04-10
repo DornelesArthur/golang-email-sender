@@ -8,11 +8,14 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+var (
+	name     = "Campaing X"
+	content  = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra dolor non felis placerat luctus. Curabitur ac accumsan urna. Sed."
+	contacts = []string{"email1@gmail.com", "anotheremail3@yahoo.com", "thirdemail@hotmail.com"}
+)
+
 func Test_NewCampaign_CreateNewCampaign(t *testing.T) {
 	assert := assert.New(t)
-	name := "Campaing X"
-	content := "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra dolor non felis placerat luctus. Curabitur ac accumsan urna. Sed."
-	contacts := []string{"email1@gmail.com", "anotheremail3@yahoo.com", "thirdemail@hotmail.com"}
 
 	campaign := campaign.NewCampaign(name, content, contacts)
 
@@ -23,20 +26,14 @@ func Test_NewCampaign_CreateNewCampaign(t *testing.T) {
 
 func Test_NewCampaign_IDIsNotNil(t *testing.T) {
 	assert := assert.New(t)
-	name := "Campaing X"
-	content := "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra dolor non felis placerat luctus. Curabitur ac accumsan urna. Sed."
-	contacts := []string{"email1@gmail.com", "anotheremail3@yahoo.com", "thirdemail@hotmail.com"}
 
 	campaign := campaign.NewCampaign(name, content, contacts)
 
 	assert.NotNil(campaign.ID, "ID shouldn'tbe nil")
 }
 
-func Test_NewCampaign_CreatedIsNotNil(t *testing.T) {
+func Test_NewCampaign_CreatedMustBeNow(t *testing.T) {
 	assert := assert.New(t)
-	name := "Campaing X"
-	content := "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra dolor non felis placerat luctus. Curabitur ac accumsan urna. Sed."
-	contacts := []string{"email1@gmail.com", "anotheremail3@yahoo.com", "thirdemail@hotmail.com"}
 	beforeCreated := time.Now()
 
 	campaign := campaign.NewCampaign(name, content, contacts)
