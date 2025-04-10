@@ -30,7 +30,7 @@ func Test_NewCampaign_IDIsNotNil(t *testing.T) {
 
 	campaign, _ := campaign.NewCampaign(name, content, contacts)
 
-	assert.NotNil(campaign.ID, "ID shouldn'tbe nil")
+	assert.NotNil(campaign.ID, "ID shouldn't be nil")
 }
 
 func Test_NewCampaign_CreatedMustBeNow(t *testing.T) {
