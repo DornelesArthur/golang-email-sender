@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	name            = "Campaing X"
+	name            = "Campaign X"
 	content         = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra dolor non felis placerat luctus. Curabitur ac accumsan urna. Sed."
 	contacts        = []string{"email1@gmail.com", "anotheremail3@yahoo.com", "thirdemail@hotmail.com"}
 	invalidContacts = []string{"email1@gmail.com", "anotheremail3@yahoo@.com", "thirdemailhotmail.com"}
@@ -21,7 +21,7 @@ func Test_NewCampaign_CreateNewCampaign(t *testing.T) {
 	campaign, _ := campaign.NewCampaign(name, content, contacts)
 
 	assert.Equal(campaign.Name, name, "Name should be "+name)
-	assert.Equal(campaign.Content, content, "Content should be "+name)
+	assert.Equal(campaign.Content, content, "Content should be "+content)
 	assert.Equal(len(campaign.Contacts), len(contacts), "Number of Contacts dont match")
 }
 
