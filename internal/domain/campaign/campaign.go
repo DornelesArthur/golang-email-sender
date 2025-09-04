@@ -2,6 +2,7 @@ package campaign
 
 import (
 	"errors"
+	internalerrors "golang-email-sender/internal/internalErrors"
 	"net/mail"
 	"time"
 
@@ -30,11 +31,18 @@ func NewCampaign(name string, content string, emails []string) (*Campaign, error
 		contacts[index].Email = email
 	}
 
-	return &Campaign{
+	campaign := &Campaign{
 		ID:       xid.New().String(),
 		Name:     name,
 		Content:  content,
 		Created:  time.Now(),
 		Contacts: contacts,
-	}, nil
+	}
+
+	err := internalerrors.ValidateStruct(campaign)
+
+	if err == nil {
+		return campaign, nil
+	}
+	return nil, err
 }
