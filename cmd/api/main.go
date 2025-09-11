@@ -1,6 +1,8 @@
 package main
 
 import (
+	"golang-email-sender/internal/contract"
+	"golang-email-sender/internal/domain/campaign"
 	"net/http"
 
 	"github.com/go-chi/render"
@@ -8,11 +10,6 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 )
-
-type product struct {
-	ID   int
-	Name string
-}
 
 func main() {
 	router := chi.NewRouter()
@@ -22,30 +19,26 @@ func main() {
 	router.Use(middleware.Logger)
 	router.Use(middleware.Recoverer)
 
-	router.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		param := r.URL.Query().Get("name")
-		if param != "" {
-			w.Write([]byte(param))
-		} else {
-			w.Write([]byte("empty query data"))
+	service := campaign.Service{}
+
+	router.Post("/campaigns", func(w http.ResponseWriter, r *http.Request) {
+		var campaign contract.NewCampaign
+		err := render.DecodeJSON(r.Body, &campaign)
+		if err != nil {
+			render.Status(r, 500)
+			render.JSON(w, r, map[string]string{"error": "Internal Server Error"})
+			return
 		}
+		id, err := service.Create(campaign)
+
+		if err != nil {
+			render.Status(r, 400)
+			render.JSON(w, r, map[string]string{"error": err.Error()})
+			return
+		}
+		render.Status(r, 201)
+		render.JSON(w, r, map[string]string{"id": id})
 	})
 
-	router.Get("/{productName}", func(w http.ResponseWriter, r *http.Request) {
-		param := chi.URLParam(r, "productName")
-		w.Write([]byte(param))
-	})
-
-	router.Get("/json", func(w http.ResponseWriter, r *http.Request) {
-		obj := map[string]string{"message": "success"}
-		render.JSON(w, r, obj)
-	})
-
-	router.Post("/product", func(w http.ResponseWriter, r *http.Request) {
-		var product product
-		render.DecodeJSON(r.Body, &product)
-		product.ID = 5
-		render.JSON(w, r, product)
-	})
 	http.ListenAndServe(":3000", router)
 }
