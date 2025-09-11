@@ -6,6 +6,7 @@ import (
 	"github.com/go-chi/render"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 )
 
 type product struct {
@@ -15,6 +16,11 @@ type product struct {
 
 func main() {
 	router := chi.NewRouter()
+
+	router.Use(middleware.RequestID)
+	router.Use(middleware.RealIP)
+	router.Use(middleware.Logger)
+	router.Use(middleware.Recoverer)
 
 	router.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		param := r.URL.Query().Get("name")
