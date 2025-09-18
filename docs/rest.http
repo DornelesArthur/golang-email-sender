@@ -7,3 +7,5 @@ POST http://localhost:3000/campaigns
         "teste@teste.com"
     ]
 }
+###
+GET http://localhost:3000/campaigns
