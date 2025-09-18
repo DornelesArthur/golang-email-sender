@@ -2,6 +2,7 @@ package campaign
 
 import (
 	"errors"
+	"fmt"
 	internalerrors "golang-email-sender/internal/internalErrors"
 	"net/mail"
 	"time"
@@ -38,7 +39,7 @@ func NewCampaign(name string, content string, emails []string) (*Campaign, error
 		Created:  time.Now(),
 		Contacts: contacts,
 	}
-
+	fmt.Print(name)
 	err := internalerrors.ValidateStruct(campaign)
 
 	if err == nil {
